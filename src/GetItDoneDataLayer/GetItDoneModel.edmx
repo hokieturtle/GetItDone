@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="GetItDoneModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="GetItDoneModelTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="GetItDoneModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="GetItDoneModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="users" EntityType="GetItDoneModel.users" />
+          <EntitySet Name="tasks" EntityType="GetItDoneModel.tasks" />
+          <AssociationSet Name="userstasks" Association="GetItDoneModel.userstasks">
+            <End Role="users" EntitySet="users" />
+            <End Role="tasks" EntitySet="tasks" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstname" Type="String" Nullable="false" />
+          <Property Name="lastname" Type="String" Nullable="false" />
+          <Property Name="email" Type="String" Nullable="false" />
+          <Property Name="phone" Type="String" Nullable="true" />
+          <NavigationProperty Name="tasks" Relationship="GetItDoneModel.userstasks" FromRole="users" ToRole="tasks" />
+        </EntityType>
+        <EntityType Name="tasks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="taskname" Type="String" Nullable="false" />
+          <Property Name="taskdetails" Type="String" Nullable="false" />
+          <Property Name="duedate" Type="DateTime" Nullable="true" />
+          <Property Name="createddate" Type="DateTime" Nullable="false" />
+          <Property Name="priority" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="user1" Relationship="GetItDoneModel.userstasks" FromRole="tasks" ToRole="users" />
+          <Property Name="user" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="userstasks">
+          <End Type="GetItDoneModel.users" Role="users" Multiplicity="1" />
+          <End Type="GetItDoneModel.tasks" Role="tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tasks">
+              <PropertyRef Name="user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="GetItDoneModel" />
+        <Alias Key="Target" Value="GetItDoneModel.Store" />
+        <EntityContainerMapping CdmEntityContainer="GetItDoneModelContainer" StorageEntityContainer="GetItDoneModelTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

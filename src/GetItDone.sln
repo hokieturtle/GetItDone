@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetItDoneWeb", "GetItDoneWeb\GetItDoneWeb.csproj", "{DD5AC98C-409A-45E4-8496-61DEBA6D1026}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetItDoneWeb.Tests", "GetItDoneWeb.Tests\GetItDoneWeb.Tests.csproj", "{0F342A01-6A60-4068-9226-3D3E3EA9F429}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetItDoneDataLayer", "GetItDoneDataLayer\GetItDoneDataLayer.csproj", "{346F948D-1495-4F51-A784-1313911DC5A0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD5AC98C-409A-45E4-8496-61DEBA6D1026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD5AC98C-409A-45E4-8496-61DEBA6D1026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD5AC98C-409A-45E4-8496-61DEBA6D1026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD5AC98C-409A-45E4-8496-61DEBA6D1026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F342A01-6A60-4068-9226-3D3E3EA9F429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F342A01-6A60-4068-9226-3D3E3EA9F429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F342A01-6A60-4068-9226-3D3E3EA9F429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F342A01-6A60-4068-9226-3D3E3EA9F429}.Release|Any CPU.Build.0 = Release|Any CPU
+		{346F948D-1495-4F51-A784-1313911DC5A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{346F948D-1495-4F51-A784-1313911DC5A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{346F948D-1495-4F51-A784-1313911DC5A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{346F948D-1495-4F51-A784-1313911DC5A0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
