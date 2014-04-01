@@ -1,18 +1,20 @@
+using GetItDone.DAL.Models;
+using System;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Linq;
 namespace GetItDone.DAL.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+    
 
-    internal sealed class Configuration : DbMigrationsConfiguration<GetItDone.DAL.CodeFirstNewDatabaseSample.BloggingContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<GetItDone.DAL.GetItDoneContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(GetItDone.DAL.CodeFirstNewDatabaseSample.BloggingContext context)
+        protected override void Seed(GetItDone.DAL.GetItDoneContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -26,6 +28,14 @@ namespace GetItDone.DAL.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+            User Andrew = new User() { FirstName = "Andrew", LastName = "Johnson", Email = "LimeyJohnson@gmail.com", Phone = "4357299442" };
+            context.Users.AddOrUpdate(Andrew);
+
+
+            context.Tasks.AddOrUpdate(new Task() { Name = "Clean Room", Details = "So you can find your wallet", Owner = Andrew});
+            context.Tasks.AddOrUpdate(new Task() { Name = "Eat Dinner", Details = "So you don't starve to death", Owner = Andrew });
+
+                
         }
     }
 }

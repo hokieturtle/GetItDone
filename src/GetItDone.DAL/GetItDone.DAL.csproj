@@ -46,13 +46,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201404011649560_InitialUserTask.cs" />
+    <Compile Include="Migrations\201404011649560_InitialUserTask.Designer.cs">
+      <DependentUpon>201404011649560_InitialUserTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201404011708035_NameUpdates.cs" />
+    <Compile Include="Migrations\201404011708035_NameUpdates.Designer.cs">
+      <DependentUpon>201404011708035_NameUpdates.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Program.cs" />
+    <Compile Include="Models\GetItDoneContext.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201404011649560_InitialUserTask.resx">
+      <DependentUpon>201404011649560_InitialUserTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201404011708035_NameUpdates.resx">
+      <DependentUpon>201404011708035_NameUpdates.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
