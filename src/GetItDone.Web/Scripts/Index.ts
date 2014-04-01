@@ -9,7 +9,7 @@ function PutTask() {
     var u = { Name: name, Details: detail };
 
     jQuery.ajax({
-        type: "POST", url: "http://localhost:22088/api/Task/1", data: u, success: PutTaskSuccess, error: PutTaskFail
+        type: "POST", url: "/api/Task/1", data: u, success: PutTaskSuccess, error: PutTaskFail
     });
 }
 function PutTaskSuccess() {
@@ -20,7 +20,7 @@ function PutTaskFail(failure) {
     window.alert("Fail");
 }
 function UpdateTasks() {
-    jQuery.getJSON("http://localhost:22088/api/Task/1", function (data:any[]) {
+    jQuery.getJSON("/api/Task/1", function (data:any[]) {
         
         jQuery("#accordion").empty();
         for (var x = 0; x < data.length; x++) {
