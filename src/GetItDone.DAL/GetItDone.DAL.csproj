@@ -54,6 +54,14 @@
     <Compile Include="Migrations\201404011708035_NameUpdates.Designer.cs">
       <DependentUpon>201404011708035_NameUpdates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201404012303218_DoneBool.cs" />
+    <Compile Include="Migrations\201404012303218_DoneBool.Designer.cs">
+      <DependentUpon>201404012303218_DoneBool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201404012316514_datetime2.cs" />
+    <Compile Include="Migrations\201404012316514_datetime2.Designer.cs">
+      <DependentUpon>201404012316514_datetime2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\GetItDoneContext.cs" />
     <Compile Include="Models\User.cs" />
@@ -70,6 +78,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201404011708035_NameUpdates.resx">
       <DependentUpon>201404011708035_NameUpdates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201404012303218_DoneBool.resx">
+      <DependentUpon>201404012303218_DoneBool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201404012316514_datetime2.resx">
+      <DependentUpon>201404012316514_datetime2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

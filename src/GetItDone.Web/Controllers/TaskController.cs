@@ -26,7 +26,7 @@ namespace GetItDone.Web.Controllers
         public IEnumerable<Task> GetTask(int id)
         {
             User user = (from u in db.Users where u.UserID == id select u).FirstOrDefault<User>();
-            return user.Tasks.AsEnumerable<Task>();
+            return user.Tasks.Where(t => !t.Done).AsEnumerable<Task>();
         }
 
         // POST api/Task/{userid}
@@ -43,7 +43,15 @@ namespace GetItDone.Web.Controllers
             return CreatedAtRoute("DefaultApi", new { id = task.TaskID }, task);
         }
 
-
+        // Post api/Task/Done/{taskid}
+        [HttpGet]
+        public IHttpActionResult Done(int id)
+        {
+            Task task = (from t in db.Tasks where t.TaskID == id select t).First<Task>();
+            task.Done = true;
+            db.SaveChanges();
+            return StatusCode(HttpStatusCode.NoContent); 
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

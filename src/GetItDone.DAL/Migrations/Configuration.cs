@@ -28,7 +28,7 @@ namespace GetItDone.DAL.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            User Andrew = new User() { FirstName = "Andrew", LastName = "Johnson", Email = "LimeyJohnson@gmail.com", Phone = "4357299442" };
+            User Andrew = new User() { UserID = 1, FirstName = "Andrew", LastName = "Johnson", Email = "LimeyJohnson@gmail.com", Phone = "4357299442" };
             context.Users.AddOrUpdate(Andrew);
 
 
