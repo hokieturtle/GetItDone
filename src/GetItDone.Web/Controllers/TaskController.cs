@@ -39,7 +39,7 @@ namespace GetItDone.Web.Controllers
             user.Tasks.Add(task);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = task.TaskID }, task);
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         // Post api/Task/Done/{taskid}

@@ -26,7 +26,7 @@ namespace GetItDone.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]  
         public ActionResult Create([Bind(Include="UserID,FirstName,LastName,Email,Phone,Password")] User user, FormCollection collection)
         {
             if (ModelState.IsValid)
@@ -35,7 +35,6 @@ namespace GetItDone.Web.Controllers
                 user.Password = Crypto.HashPassword(user.Password);
                 db.Users.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
             Response.AppendCookie(CookieHelper.CreateSession(user));
                         
