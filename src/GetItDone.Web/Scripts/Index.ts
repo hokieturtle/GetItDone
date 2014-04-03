@@ -13,7 +13,6 @@ function PutTask() {
     });
 }
 function PutTaskSuccess() {
-    window.alert("Success");
     UpdateTasks();
 }
 function PutTaskFail(failure) {

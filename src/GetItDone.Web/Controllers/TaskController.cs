@@ -34,12 +34,15 @@ namespace GetItDone.Web.Controllers
         public IHttpActionResult PostTask(Task task)
         {
             User user = CookieHelper.LoggedInUser(Request, db);
-
-            db.Entry(user).Collection(u => u.Tasks).Load();
-            user.Tasks.Add(task);
-            db.SaveChanges();
-
-            return StatusCode(HttpStatusCode.NoContent);
+            if (user != null)
+            {
+                db.Entry(user).Collection(u => u.Tasks).Load();
+                user.Tasks.Add(task);
+                db.SaveChanges();
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+            return StatusCode(HttpStatusCode.Forbidden);
+            
         }
 
         // Post api/Task/Done/{taskid}

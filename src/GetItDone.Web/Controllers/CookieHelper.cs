@@ -22,8 +22,19 @@ namespace GetItDone.Web.Controllers
                 return cookie;
             }
         }
+
+        public static Guid AuthCookie(HttpRequestBase request)
+        {
+            if (request.Cookies["auth"] != null)
+            {
+                Guid cookieGuid = Guid.Parse(request.Cookies["auth"].Value);
+                return cookieGuid;
+            }
+            throw new ArgumentNullException("Cookie did not exist");
+        }
+
         //This version is for WebApi
-        public static User LoggedInUser(HttpRequestMessage request, GetItDoneContext db =null/*We need this so that the user object is created in the correct context*/)
+        public static User LoggedInUser(HttpRequestMessage request, GetItDoneContext db = null/*We need this so that the user object is created in the correct context*/)
         {
             CookieHeaderValue cookie = request.Headers.GetCookies("auth").FirstOrDefault();
             if (cookie != null)
@@ -36,12 +47,15 @@ namespace GetItDone.Web.Controllers
         //This version is for MVC
         public static User LoggedInUser(HttpRequestBase request, GetItDoneContext db = null/*We need this so that the user object is created in the correct context*/)
         {
-            if (request.Cookies["auth"] != null)
+            try
             {
-                Guid cookieGuid = Guid.Parse(request.Cookies["auth"].Value);
-                return LoggedInUser(cookieGuid, db);
+                return LoggedInUser(AuthCookie(request), db);
             }
-            return null;
+            catch (ArgumentNullException)
+            {
+                return null;
+            }
+
         }
         private static User LoggedInUser(Guid cookieGuid, GetItDoneContext db)
         {
