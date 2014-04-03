@@ -23,7 +23,7 @@ namespace GetItDone.Web.Controllers
             User user = CookieHelper.LoggedInUser(Request);
             if (user != null)
             {
-                return (from u in db.Users.Include("Tasks") where u.UserID == user.UserID select u.Tasks).FirstOrDefault<List<Task>>().Where(t => !t.Done).AsEnumerable<Task>(); 
+                return (from u in db.Users.Include("Tasks") where u.UserID == user.UserID select u.Tasks).FirstOrDefault<List<Task>>().Where(t => !t.Done).OrderBy(t => t.Priority).AsEnumerable<Task>();
             }
             return null;
         }
@@ -42,17 +42,66 @@ namespace GetItDone.Web.Controllers
                 return StatusCode(HttpStatusCode.NoContent);
             }
             return StatusCode(HttpStatusCode.Forbidden);
-            
+
+        }
+
+        // POST api/Task/{userid}
+        [HttpPost]
+        public IHttpActionResult PostSort(Task postedTask)
+        {
+            User user = CookieHelper.LoggedInUser(Request, db);
+            if (user != null)
+            {
+                db.Entry(user).Collection(u => u.Tasks).Load();
+
+                Task movedTask = user.Tasks.Find(t => t.TaskID == postedTask.TaskID);
+                if (movedTask.Priority != postedTask.Priority)
+                {
+                    if (movedTask.Priority > postedTask.Priority)
+                    {
+                        //The task has become more of a priority
+                        //Move all tasks between the old position and the new position down one
+                        foreach (Task t in user.Tasks.Where(t => !t.Done && t.Priority < movedTask.Priority && t.Priority >= postedTask.Priority))
+                        {
+                            t.Priority++;
+                        }
+                    }
+                    else
+                    {
+                        //The task's priority value has increased which means it became less of a priority
+                        foreach (Task t in user.Tasks.Where(t => !t.Done && t.Priority > movedTask.Priority && t.Priority<= postedTask.Priority))
+                        {
+                            t.Priority--;
+                        }
+                    }
+                    movedTask.Priority = postedTask.Priority;
+                }
+
+
+                db.SaveChanges();
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+            return StatusCode(HttpStatusCode.Forbidden);
+
         }
 
         // Post api/Task/Done/{taskid}
         [HttpGet]
         public IHttpActionResult Done(int id)
         {
-            Task task = (from t in db.Tasks where t.TaskID == id select t).First<Task>();
-            task.Done = true;
-            db.SaveChanges();
-            return StatusCode(HttpStatusCode.NoContent); 
+            User user = CookieHelper.LoggedInUser(Request, db);
+            if (user != null)
+            {
+                db.Entry(user).Collection(u => u.Tasks).Load();
+                Task task = user.Tasks.Where(t => t.TaskID == id).FirstOrDefault();
+                if (task != null)
+                {
+                    task.Done = true;
+                    db.SaveChanges();
+                    return StatusCode(HttpStatusCode.NoContent);
+                }
+            }
+            return StatusCode(HttpStatusCode.BadRequest);
         }
         protected override void Dispose(bool disposing)
         {
