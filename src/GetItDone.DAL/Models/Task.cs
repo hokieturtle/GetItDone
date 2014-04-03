@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,6 +13,7 @@ namespace GetItDone.DAL.Models
     {
         public Task()
         {
+            
             Created = DateTime.Now;
         }
         [Key]
@@ -21,6 +23,7 @@ namespace GetItDone.DAL.Models
         [Required]
         public string Details { get; set; }
         [Required]
+        [JsonIgnore]
         public virtual User Owner { get; set; }
         [Required]
         [Column(TypeName = "datetime2")]

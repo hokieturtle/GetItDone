@@ -25,6 +25,9 @@ namespace GetItDone.DAL.Models
         public string Phone { get; set; }
         [Column(TypeName = "datetime2")]
         public DateTime Joined { get; set; }
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
         public virtual List<Task> Tasks { get; set; }
     }
+
 }

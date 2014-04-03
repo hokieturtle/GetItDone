@@ -18,26 +18,25 @@ namespace GetItDone.Web.Controllers
         private GetItDoneContext db = new GetItDoneContext();
 
         // GET api/Task
-        public IQueryable<Task> GetTasks()
+        public IEnumerable<Task> GetTask()
         {
-            return db.Tasks;
-        }
-
-        public IEnumerable<Task> GetTask(int id)
-        {
-            User user = (from u in db.Users where u.UserID == id select u).FirstOrDefault<User>();
-            return user.Tasks.Where(t => !t.Done).AsEnumerable<Task>();
+            User user = CookieHelper.LoggedInUser(Request);
+            if (user != null)
+            {
+                return (from u in db.Users.Include("Tasks") where u.UserID == user.UserID select u.Tasks).FirstOrDefault<List<Task>>().Where(t => !t.Done).AsEnumerable<Task>(); 
+            }
+            return null;
         }
 
         // POST api/Task/{userid}
         [ResponseType(typeof(Task))]
         [HttpPost]
-        public IHttpActionResult PostTask(int id, Task task)
+        public IHttpActionResult PostTask(Task task)
         {
-            User user = (from u in db.Users where u.UserID == id select u).FirstOrDefault<User>();
-            task.Owner = user;
+            User user = CookieHelper.LoggedInUser(Request, db);
 
-            db.Tasks.Add(task);
+            db.Entry(user).Collection(u => u.Tasks).Load();
+            user.Tasks.Add(task);
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = task.TaskID }, task);

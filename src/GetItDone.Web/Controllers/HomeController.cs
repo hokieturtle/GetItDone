@@ -10,15 +10,19 @@ namespace GetItDone.Web.Controllers
 {
     public class HomeController : Controller
     {
-        //
+
         // GET: /Home/
         public ActionResult Index()
         {
-            using(GetItDoneContext c = new GetItDoneContext())
+
+            //Check that the are logged in, if they are not redirect to login
+            User user = CookieHelper.LoggedInUser(Request);
+            if(user != null)
             {
-                var andrew = (from s in c.Users.Include("Tasks") where s.FirstName == "Andrew" select s).FirstOrDefault<User>();
-                return View(andrew);
+                return View(user);
             }
+            
+            return RedirectToAction("Login", "Auth");
         }
-	}
+    }
 }

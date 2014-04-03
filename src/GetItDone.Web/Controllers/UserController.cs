@@ -2,105 +2,46 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Description;
+using System.Web;
+using System.Web.Mvc;
 using GetItDone.DAL.Models;
 using GetItDone.DAL;
+using System.Web.Helpers;
 
 namespace GetItDone.Web.Controllers
 {
-    public class UserController : ApiController
+    public class UserController : Controller
     {
         private GetItDoneContext db = new GetItDoneContext();
 
-        // GET api/User
-        public IQueryable<User> GetUsers()
+        // GET: /User/Create
+        public ActionResult Create()
         {
-            return db.Users;
+            return View();
         }
 
-        // GET api/User/5
-        [ResponseType(typeof(User))]
-        public IHttpActionResult GetUser(int id)
+        // POST: /User/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include="UserID,FirstName,LastName,Email,Phone,Password")] User user, FormCollection collection)
         {
-            User user = db.Users.Find(id);
-            if (user == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
-
-            return Ok(user);
-        }
-
-        // PUT api/User/5
-        public IHttpActionResult PutUser(int id, User user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != user.UserID)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(user).State = EntityState.Modified;
-
-            try
-            {
+                //Hash the password for goodness sake. Why does MVC not do this automatically
+                user.Password = Crypto.HashPassword(user.Password);
+                db.Users.Add(user);
                 db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            Response.AppendCookie(CookieHelper.CreateSession(user));
+                        
+            return RedirectToAction("Index", "Home");
         }
-
-        // POST api/User
-        [ResponseType(typeof(User))]
-        public IHttpActionResult PostUser(User user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Users.Add(user);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = user.UserID }, user);
-        }
-
-        // DELETE api/User/5
-        [ResponseType(typeof(User))]
-        public IHttpActionResult DeleteUser(int id)
-        {
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            db.Users.Remove(user);
-            db.SaveChanges();
-
-            return Ok(user);
-        }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -108,11 +49,6 @@ namespace GetItDone.Web.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool UserExists(int id)
-        {
-            return db.Users.Count(e => e.UserID == id) > 0;
         }
     }
 }
