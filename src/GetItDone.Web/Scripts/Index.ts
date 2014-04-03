@@ -9,7 +9,7 @@ function PutTask() {
     var u = { Name: name, Details: detail };
 
     jQuery.ajax({
-        type: "POST", url: "/api/Task/", data: u, success: PutTaskSuccess, error: PutTaskFail
+        type: "POST", url: "/api/Task/PostTask", data: u, success: PutTaskSuccess, error: PutTaskFail
     });
 }
 function PutTaskSuccess() {
